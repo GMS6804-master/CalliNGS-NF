@@ -4,34 +4,34 @@ A Nextflow pipeline for Variant Calling Analysis with NGS RNA-Seq data based on 
 [![nextflow](https://img.shields.io/badge/nextflow-%E2%89%A50.24.0-brightgreen.svg)](http://nextflow.io)
 [![Build Status](https://travis-ci.org/CRG-CNAG/CalliNGS-NF.svg?branch=master)](https://travis-ci.org/CRG-CNAG/CalliNGS-NF)
 
-## Quickstart 
+## Quickstart for UFRC
 
-Install Nextflow by using the following command: 
+1) Load relevant modules
 
-    curl -s https://get.nextflow.io | bash 
+ml singularity
+ml nextflow
+ml gatk/3.8.0
+ml git
     
-Download the Docker image with this command (optional) : 
+2) Pull container with UFRC modification (dominicklemas/callings-nf-gatk4). Note: the Docker image contains all the required 
+dependencies except GATK which cannot be included due to license restrictions. UFRC modifications include directories that can 
+be mounted when booting into container.
 
-    docker pull cbcrg/callings-nf@sha256:b65a7d721b9dd2da07d6bdd7f868b04039860f14fa514add975c59e68614c310
-    
-Note: the Docker image contains all the required dependencies except GATK which 
-cannot be included due to license restrictions. 
+mkdir /home/djlemas/singularity/
+cd /home/djlemas/singularity/
 
-Download the `GenomeAnalysisTK.jar` (version 3.7) package from [this link](https://software.broadinstitute.org/gatk/download/archive). 
-The base code is from version gatk/3.8.0.    
+singularity pull docker://dominicklemas/callings-nf-gatk4    
 
-Launch the pipeline execution with the following command: 
+3) Create repository with nextflow pipeline files
 
-    test gatk
-	
-	java -jar /apps/gatk/3.8.0/GenomeAnalysisTK.jar --help
-	java -jar /apps/gatk/4.0.8.0/gatk-package-4.0.8.0-local.jar --help
-	
-	
-	nextflow run main_gatk3.nf -with-singularity /home/djlemas/singularity/callings-nf-gatk4.simg --gatk /apps/gatk/3.8.0/GenomeAnalysisTK.jar
+mkdir /home/djlemas/CalliNGS-NF
+cd /home/djlemas/CalliNGS-NF
+git clone https://github.com/translational-bioinformatics/CalliNGS-NF.git 
 
-Issues: 
-https://gatkforums.broadinstitute.org/gatk/discussion/11567/splitncigarreads-unrecognized-options
+4) Launch the pipeline execution with the following command: 
+
+nextflow run main_gatk3.nf -with-singularity /home/djlemas/singularity/callings-nf-gatk4.simg --gatk /apps/gatk/3.8.0/GenomeAnalysisTK.jar
+
 	
 	
 ## Pipeline Description
