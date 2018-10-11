@@ -282,17 +282,10 @@ process '4_rnaseq_gatk_recalibrate' {
   sampleId = replicateId.replaceAll(/[12]$/,'')
   """
   # Indel Realignment and Base Recalibration
-  $GATK -T BaseRecalibrator \
-          --default_platform illumina \
-          -cov ReadGroupCovariate \
-          -cov QualityScoreCovariate \
-          -cov CycleCovariate \
-          -knownSites ${variants_file} \
-          -cov ContextCovariate \
+  $GATK BaseRecalibrator \
+          -known-sites ${variants_file} \
           -R ${genome} -I ${bam} \
-          --downsampling_type NONE \
-          -nct ${task.cpus} \
-          -o final.rnaseq.grp 
+          -O final.rnaseq.grp 
   $GATK -T PrintReads \
           -R ${genome} -I ${bam} \
           -BQSR final.rnaseq.grp \
