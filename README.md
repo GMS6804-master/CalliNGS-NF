@@ -8,13 +8,13 @@ A Nextflow pipeline for Variant Calling Analysis with NGS RNA-Seq data based on 
 
 1) Load relevant modules
 
- *ml singularity
+* ml singularity
  
- *ml nextflow
+* ml nextflow
  
- *ml gatk/3.8.0
+* ml gatk/3.8.0
  
- *ml git
+* ml git
     
 2) Pull container with UFRC modification (dominicklemas/callings-nf-gatk4). Note: the Docker image contains all the required 
 dependencies except GATK which cannot be included due to license restrictions. UFRC modifications include directories that can 
