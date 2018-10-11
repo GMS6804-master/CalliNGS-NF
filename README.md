@@ -21,7 +21,11 @@ Download the `GenomeAnalysisTK.jar` (version 3.7) package from [this link](https
 
 Launch the pipeline execution with the following command: 
 
-    nextflow run CRG-CNAG/CalliNGS-NF --gatk </path/to/GenomeAnalysisTK.jar>
+    test gatk
+	
+	java -jar /apps/gatk/4.0.8.0/gatk-package-4.0.8.0-local.jar --help
+	
+	nextflow run main.nf -with-singularity /home/djlemas/singularity/callings-nf-gatk4.simg --gatk /apps/gatk/4.0.8.0/gatk-package-4.0.8.0-local.jar
 
 
 ## Pipeline Description
