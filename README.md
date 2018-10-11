@@ -27,7 +27,10 @@ Launch the pipeline execution with the following command:
 	
 	nextflow run main.nf -with-singularity /home/djlemas/singularity/callings-nf-gatk4.simg --gatk /apps/gatk/4.0.8.0/gatk-package-4.0.8.0-local.jar
 
-
+Issues: 
+https://gatkforums.broadinstitute.org/gatk/discussion/11567/splitncigarreads-unrecognized-options
+	
+	
 ## Pipeline Description
 
 The RNA sequencing (RNA-seq) data, in additional to the expression information, can be used to obtain somatic variants present in the genes of the analysed organism. The CalliNGS-NF pipeline processes RNAseq data to obtain small variants(SNVs), single polymorphisms (SNPs) and small INDELs (insertions, deletions). The pipeline is an implementation of the GATK best practices for variant calling on RNAseq and includes all major steps of the analysis, [link](http://gatkforums.broadinstitute.org/gatk/discussion/3892/the-gatk-best-practices-for-variant-calling-on-rnaseq-in-full-detail). 
