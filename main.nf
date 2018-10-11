@@ -286,11 +286,9 @@ process '4_rnaseq_gatk_recalibrate' {
           -known-sites ${variants_file} \
           -R ${genome} -I ${bam} \
           -O final.rnaseq.grp 
-  $GATK -T PrintReads \
+  $GATK PrintReads \
           -R ${genome} -I ${bam} \
-          -BQSR final.rnaseq.grp \
-          -nct ${task.cpus} \
-          -o final.bam
+          -O final.bam
   # Select only unique alignments, no multimaps
   (samtools view -H final.bam; samtools view final.bam| grep -w 'NH:i:1') \
   |samtools view -Sb -  > ${replicateId}.final.uniq.bam
