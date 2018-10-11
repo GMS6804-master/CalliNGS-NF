@@ -24,9 +24,11 @@ Launch the pipeline execution with the following command:
 
     test gatk
 	
+	java -jar /apps/gatk/3.8.0/GenomeAnalysisTK.jar --help
 	java -jar /apps/gatk/4.0.8.0/gatk-package-4.0.8.0-local.jar --help
 	
-	nextflow run main.nf -with-singularity /home/djlemas/singularity/callings-nf-gatk4.simg --gatk /apps/gatk/4.0.8.0/gatk-package-4.0.8.0-local.jar
+	
+	nextflow run main_gatk3.nf -with-singularity /home/djlemas/singularity/callings-nf-gatk4.simg --gatk /apps/gatk/3.8.0/GenomeAnalysisTK.jar
 
 Issues: 
 https://gatkforums.broadinstitute.org/gatk/discussion/11567/splitncigarreads-unrecognized-options
