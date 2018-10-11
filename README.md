@@ -20,20 +20,23 @@ A Nextflow pipeline for Variant Calling Analysis with NGS RNA-Seq data based on 
 dependencies except GATK which cannot be included due to license restrictions. UFRC modifications include directories that can 
 be mounted when booting into container.
 
-mkdir /home/djlemas/singularity/
-cd /home/djlemas/singularity/
+* mkdir /home/djlemas/singularity/
 
-singularity pull docker://dominicklemas/callings-nf-gatk4    
+* cd /home/djlemas/singularity/
+
+* singularity pull docker://dominicklemas/callings-nf-gatk4    
 
 3) Create repository with nextflow pipeline files
 
-mkdir /home/djlemas/CalliNGS-NF
-cd /home/djlemas/CalliNGS-NF
-git clone https://github.com/translational-bioinformatics/CalliNGS-NF.git 
+* mkdir /home/djlemas/CalliNGS-NF
+
+* cd /home/djlemas/CalliNGS-NF
+
+* git clone https://github.com/translational-bioinformatics/CalliNGS-NF.git 
 
 4) Launch the pipeline execution with the following command: 
 
-nextflow run main_gatk3.nf -with-singularity /home/djlemas/singularity/callings-nf-gatk4.simg --gatk /apps/gatk/3.8.0/GenomeAnalysisTK.jar
+* nextflow run main_gatk3.nf -with-singularity /home/djlemas/singularity/callings-nf-gatk4.simg --gatk /apps/gatk/3.8.0/GenomeAnalysisTK.jar
 
 	
 	
