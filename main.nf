@@ -332,11 +332,11 @@ process '5_rnaseq_call_variants' {
   echo "${bam.join('\n')}" > bam.list
   
   # Variant calling
-  $GATK -T HaplotypeCaller \
+  $GATK HaplotypeCaller \
           -R $genome -I bam.list \
-          -dontUseSoftClippedBases \
-          -stand_call_conf 20.0 \
-          -o output.gatk.vcf.gz
+          -dont-use-soft-clipped-bases \
+          -stand-call-conf 20.0 \
+          -O output.gatk.vcf.gz
   # Variant filtering
   $GATK -T VariantFiltration \
           -R $genome -V output.gatk.vcf.gz \
