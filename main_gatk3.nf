@@ -42,7 +42,7 @@ params.variants   = "$baseDir/data/known_variants.vcf.gz"
 params.blacklist  = "$baseDir/data/blacklist.bed" 
 params.reads      = "$baseDir/data/reads/rep1_{1,2}.fq.gz"
 params.results    = "results"
-params.gatk       = '/apps/gatk/4.0.8.0/gatk-package-4.0.8.0-local.jar'
+params.gatk       = '/apps/gatk/3.8.0/GenomeAnalysisTK.jar'
 params.gatk_launch = "java -jar $params.gatk" 
 
 log.info """\
