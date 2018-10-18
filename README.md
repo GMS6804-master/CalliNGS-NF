@@ -38,7 +38,7 @@ be mounted when booting into container.
 
 * nextflow run main_gatk3.nf -with-singularity /home/djlemas/singularity/callings-nf-gatk4.simg --gatk /apps/gatk/3.8.0/GenomeAnalysisTK.jar
 
-	
+	sacctmgr show qos djlemas format="Name%-16,GrpSubmit,MaxWall,GrpTres%-45"
 	
 ## Pipeline Description
 
