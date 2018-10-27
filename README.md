@@ -6,8 +6,7 @@ A Nextflow pipeline for Variant Calling Analysis with NGS RNA-Seq data based on 
 
 ## Quick start for UFRC
 
-## 1) Pull container with UFRC modification (dominicklemas/callings-nf-gatk4). Note: the Docker image contains all the required dependencies except GATK which cannot be included due to license restrictions. UFRC modifications include directories that can 
-be mounted when booting into container.
+## 1) Pull container with UFRC modification (dominicklemas/callings-nf-gatk4). Note: the Docker image contains all the required dependencies except GATK which cannot be included due to license restrictions. UFRC modifications include directories that can be mounted when booting into container.
 
 * mkdir /home/djlemas/singularity/
 
