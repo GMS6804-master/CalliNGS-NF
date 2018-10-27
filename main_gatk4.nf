@@ -42,7 +42,7 @@ params.variants   = "$baseDir/data/known_variants.vcf.gz"
 params.blacklist  = "$baseDir/data/blacklist.bed" 
 params.reads      = "$baseDir/data/reads/rep1_{1,2}.fq.gz"
 params.results    = "results"
-params.gatk       = '/usr/local/bin/GenomeAnalysisTK.jar'
+params.gatk       = '/apps/gatk/4.0.8.0/gatk-package-4.0.8.0-local.jar'
 params.gatk_launch = "java -jar $params.gatk" 
 
 log.info """\
@@ -124,7 +124,6 @@ process '1C_prepare_star_genome_index' {
   script:
   """
   mkdir genome_dir
-
   STAR --runMode genomeGenerate \
        --genomeDir genome_dir \
        --genomeFastaFiles ${genome} \
@@ -153,7 +152,6 @@ process '1D_prepare_vcf_file' {
            --exclude-bed ${blacklisted} \
            --recode | bgzip -c \
            > ${variantsFile.baseName}.filtered.recode.vcf.gz
-
   tabix ${variantsFile.baseName}.filtered.recode.vcf.gz
   """
 }
@@ -213,7 +211,6 @@ process '2_rnaseq_mapping_star' {
        --outFilterMismatchNmax 999 \
        --outSAMtype BAM SortedByCoordinate \
        --outSAMattrRGline ID:$replicateId LB:library PL:illumina PU:machine SM:GM12878
-
   # Index the BAM file
   samtools index Aligned.sortedByCoord.out.bam
   """
@@ -248,14 +245,11 @@ process '3_rnaseq_gatk_splitNcigar' {
   script:
   """
   # SplitNCigarReads and reassign mapping qualities
-  $GATK -T SplitNCigarReads \
-          -R $genome -I $bam \
-          -o split.bam \
-          -rf ReassignOneMappingQuality \
-          -RMQF 255 -RMQT 60 \
-          -U ALLOW_N_CIGAR_READS \
-          --fix_misencoded_quality_scores
-  """
+  $GATK SplitNCigarReads \
+          -R $genome \
+		  -I $bam \
+          -O split.bam \
+          """
 }
 
 /*
@@ -288,28 +282,16 @@ process '4_rnaseq_gatk_recalibrate' {
   sampleId = replicateId.replaceAll(/[12]$/,'')
   """
   # Indel Realignment and Base Recalibration
-  $GATK -T BaseRecalibrator \
-          --default_platform illumina \
-          -cov ReadGroupCovariate \
-          -cov QualityScoreCovariate \
-          -cov CycleCovariate \
-          -knownSites ${variants_file} \
-          -cov ContextCovariate \
+  $GATK BaseRecalibrator \
+          -known-sites ${variants_file} \
           -R ${genome} -I ${bam} \
-          --downsampling_type NONE \
-          -nct ${task.cpus} \
-          -o final.rnaseq.grp 
-
-  $GATK -T PrintReads \
+          -O final.rnaseq.grp 
+  $GATK PrintReads \
           -R ${genome} -I ${bam} \
-          -BQSR final.rnaseq.grp \
-          -nct ${task.cpus} \
-          -o final.bam
-
+          -O final.bam
   # Select only unique alignments, no multimaps
   (samtools view -H final.bam; samtools view final.bam| grep -w 'NH:i:1') \
   |samtools view -Sb -  > ${replicateId}.final.uniq.bam
-
   # Index BAM files
   samtools index ${replicateId}.final.uniq.bam
   """
@@ -350,19 +332,17 @@ process '5_rnaseq_call_variants' {
   echo "${bam.join('\n')}" > bam.list
   
   # Variant calling
-  $GATK -T HaplotypeCaller \
+  $GATK HaplotypeCaller \
           -R $genome -I bam.list \
-          -dontUseSoftClippedBases \
-          -stand_call_conf 20.0 \
-          -o output.gatk.vcf.gz
-
+          -dont-use-soft-clipped-bases \
+          -stand-call-conf 20.0 \
+          -O output.gatk.vcf.gz
   # Variant filtering
-  $GATK -T VariantFiltration \
+  $GATK VariantFiltration \
           -R $genome -V output.gatk.vcf.gz \
-          -window 35 -cluster 3 \
-          -filterName FS -filter "FS > 30.0" \
-          -filterName QD -filter "QD < 2.0" \
-          -o final.vcf
+          -filter-name FS -filter "FS > 30.0" \
+          -filter-name QD -filter "QD < 2.0" \
+          -O final.vcf
   """
 }
 
@@ -414,13 +394,11 @@ process '6B_prepare_vcf_for_ase' {
   awk 'BEGIN{OFS="\t"} $4~/B/{print $1,$2,$3}' commonSNPs.diff.sites_in_files  > test.bed
     
   vcftools --vcf final.vcf --bed test.bed --recode --keep-INFO-all --stdout > known_snps.vcf
-
   grep -v '#'  known_snps.vcf | awk -F '\\t' '{print $10}' \
                |awk -F ':' '{print $2}'|perl -ne 'chomp($_); \
                @v=split(/\\,/,$_); if($v[0]!=0 ||$v[1] !=0)\
                {print  $v[1]/($v[1]+$v[0])."\\n"; }' |awk '$1!=1' \
                >AF.4R
-
   gghist.R -i AF.4R -o AF.histogram.pdf
   '''
 }
@@ -491,4 +469,3 @@ process '6C_ASE_knownSNPs' {
 /*
  *  END OF PART 6
  ******/
-

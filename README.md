@@ -23,8 +23,29 @@ ml gatk/4.0.8.0
 
 ml nextflow
 nextflow run main.nf -with-singularity /home/djlemas/singularity/callings-nf@sha256-b65a7d721b9dd2da07d6bdd7f868b04039860f14fa514add975c59e68614c310.simg --gatk /apps/gatk/4.0.8.0/gatk-package-4.0.8.0-local.jar
+=======
+## 1) Pull container with UFRC modification (dominicklemas/callings-nf-gatk4). Note: the Docker image contains all the required dependencies except GATK which cannot be included due to license restrictions. UFRC modifications include directories that can 
+be mounted when booting into container.
 
+* mkdir /home/djlemas/singularity/
 
+* cd /home/djlemas/singularity/
+
+* singularity pull docker://dominicklemas/callings-nf-gatk4    
+
+## 2) Create repository with nextflow pipeline files
+
+* mkdir /home/djlemas/CalliNGS-NF
+
+* cd /home/djlemas/CalliNGS-NF
+
+* git clone https://github.com/translational-bioinformatics/CalliNGS-NF.git 
+
+## 3) Launch the pipeline using SLURM with the following command: 
+
+* sh run-nextflow-gatk3.sh
+
+	
 ## Pipeline Description
 
 The RNA sequencing (RNA-seq) data, in additional to the expression information, can be used to obtain somatic variants present in the genes of the analysed organism. The CalliNGS-NF pipeline processes RNAseq data to obtain small variants(SNVs), single polymorphisms (SNPs) and small INDELs (insertions, deletions). The pipeline is an implementation of the GATK best practices for variant calling on RNAseq and includes all major steps of the analysis, [link](http://gatkforums.broadinstitute.org/gatk/discussion/3892/the-gatk-best-practices-for-variant-calling-on-rnaseq-in-full-detail). 
