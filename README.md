@@ -4,7 +4,7 @@ A Nextflow pipeline for Variant Calling Analysis with NGS RNA-Seq data based on 
 [![nextflow](https://img.shields.io/badge/nextflow-%E2%89%A50.24.0-brightgreen.svg)](http://nextflow.io)
 [![Build Status](https://travis-ci.org/CRG-CNAG/CalliNGS-NF.svg?branch=master)](https://travis-ci.org/CRG-CNAG/CalliNGS-NF)
 
-## Quickstart for UFRC
+## Quick start for UFRC
 
 1)  Download the Docker image using singularity (/home/<user>/singularity) with this command (optional) : 
 
