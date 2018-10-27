@@ -6,24 +6,6 @@ A Nextflow pipeline for Variant Calling Analysis with NGS RNA-Seq data based on 
 
 ## Quick start for UFRC
 
-1)  Download the Docker image using singularity (/home/<user>/singularity) with this command (optional) : 
-
-ml singularity
-singularity pull docker://cbcrg/callings-nf@sha256:b65a7d721b9dd2da07d6bdd7f868b04039860f14fa514add975c59e68614c310
-    
-2) Load GATK module
-
-Note: the Docker image contains all the required dependencies except GATK which 
-cannot be included due to license restrictions. Download the `GenomeAnalysisTK.jar` (version 3.7) package 
-from [this link](https://software.broadinstitute.org/gatk/download/archive).    
-
-ml gatk/4.0.8.0
-
-3) Launch Nextflow and execute the pipeline: 
-
-ml nextflow
-nextflow run main.nf -with-singularity /home/djlemas/singularity/callings-nf@sha256-b65a7d721b9dd2da07d6bdd7f868b04039860f14fa514add975c59e68614c310.simg --gatk /apps/gatk/4.0.8.0/gatk-package-4.0.8.0-local.jar
-=======
 ## 1) Pull container with UFRC modification (dominicklemas/callings-nf-gatk4). Note: the Docker image contains all the required dependencies except GATK which cannot be included due to license restrictions. UFRC modifications include directories that can 
 be mounted when booting into container.
 
