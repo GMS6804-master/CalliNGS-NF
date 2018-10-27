@@ -19,8 +19,9 @@ from [this link](https://software.broadinstitute.org/gatk/download/archive).
 
 ml gatk/4.0.8.0
 
-3) Launch the pipeline execution with the following command: 
+3) Launch Nextflow and execute the pipeline: 
 
+ml nextflow
 nextflow run main.nf -with-singularity /home/djlemas/singularity/callings-nf@sha256-b65a7d721b9dd2da07d6bdd7f868b04039860f14fa514add975c59e68614c310.simg --gatk /apps/gatk/4.0.8.0/gatk-package-4.0.8.0-local.jar
 
 
